@@ -5,17 +5,17 @@ import pandas as pd
 import sqlite3
 
 def extract():
-    df = pd.read_csv('/workspaces/airflow_project/dags/files/sales_data.csv')
-    df.to_csv('/workspaces/airflow_project/dags/files/staging_sales_data.csv', index=False)
+    df = pd.read_csv('/workspaces/ETL_Pipeline_with_Airflow/dags/files/sales_data.csv')
+    df.to_csv('/workspaces/ETL_Pipeline_with_Airflow/dags/files/staging_sales_data.csv', index=False)
 
 def transform():
-    df = pd.read_csv('/workspaces/airflow_project/dags/files/staging_sales_data.csv')
+    df = pd.read_csv('/workspaces/ETL_Pipeline_with_Airflow/dags/files/staging_sales_data.csv')
     df['total_price'] = df['quantity'] * df['unit_price']
-    df.to_csv('/workspaces/airflow_project/dags/files/transformed_sales_data.csv', index=False)
+    df.to_csv('/workspaces/ETL_Pipeline_with_Airflow/dags/files/transformed_sales_data.csv', index=False)
 
 def load():
-    conn = sqlite3.connect('/workspaces/airflow_project/dags/files/database.db')
-    df = pd.read_csv('/workspaces/airflow_project/dags/files/transformed_sales_data.csv')
+    conn = sqlite3.connect('/workspaces/ETL_Pipeline_with_Airflow/dags/files/database.db')
+    df = pd.read_csv('/workspaces/ETL_Pipeline_with_Airflow/dags/files/transformed_sales_data.csv')
     df.to_sql('sales', conn, if_exists='replace', index=False)
     conn.close()
 
